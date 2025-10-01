@@ -7,7 +7,7 @@ class TipoContrato(Base):
 
     id_tipo_contrato = Column(Integer, primary_key=True, index=True, autoincrement=True)
     descripcion = Column(String(255), nullable=False)
-    contratos = relationship("Contrato", back_populates="tipo_contratos")
+    contratos = relationship("Contrato", back_populates="tipo_contrato")
 
 
     def __repr__(self):

@@ -7,7 +7,6 @@ class MotivoTerminacion(Base):
     id_motivo_terminacion = Column(Integer, primary_key = True, index = True, autoincrement = True)
     descripcion = Column(String(255), nullable=False)
     liquidaciones = relationship("Liquidacion", back_populates = "motivo_terminacion")
-    contratos = relationship("Contrato", back_populates="tipo_contrato")
 
     def __repr__(self):
         return f"<MotivoLiquidacion(id={self.id_motivo_terminacion}, descripcion='{self.descripcion}')>"
