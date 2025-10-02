@@ -7,9 +7,10 @@ from models.tipo_documento import TipoDocumento
 from models.liquidacion import Liquidacion
 from models.detalle_liquidacion import DetalleLiquidacion
 from models.motivo_terminacion import MotivoTerminacion
+from models.users import User
 from routers.empleado_router import router as empleado_router
 from routers.tipo_documento_router import router as tipo_documento_router
-
+from routers.user_router import router as usuario_router
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -22,3 +23,4 @@ def home():
 
 app.include_router(empleado_router)
 app.include_router(tipo_documento_router)
+app.include_router(usuario_router)
