@@ -14,5 +14,6 @@ class Empleado(Base):
 
     contratos = relationship("Contrato", back_populates = "empleado")
     tipo_documento_rel = relationship("TipoDocumento", back_populates="empleados")
+    usuario = relationship("User", back_populates = "empleado")
     def __repr__(self):
         return f"id: {self.id_empleado}, nombre: {self.nombres} {self.apellidos} "

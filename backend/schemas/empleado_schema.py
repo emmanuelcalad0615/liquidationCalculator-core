@@ -22,6 +22,9 @@ class EmpleadoOut(BaseModel):
     id_empleado: int
     nombres: str
     apellidos: str
+    tipo_documento: int
+    documento: str
+    fecha_nacimiento:date
 
     class Config:
         from_attributes = True
