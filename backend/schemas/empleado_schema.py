@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from datetime import date 
+from pydantic import BaseModel
+from typing import Optional
+
 
 class EmpleadoBase(BaseModel):
     nombres: str
@@ -12,11 +15,11 @@ class EmpleadoCreate(EmpleadoBase):
     pass
 
 class EmpleadoUpdate(BaseModel):
-    nombres: str | None = None
-    apellidos: str | None = None
-    tipo_documento: int | None = None
-    documento: str | None = None
-    fecha_nacimiento: date | None = None
+    nombres: Optional[str] = None
+    apellidos: Optional[str] = None
+    tipo_documento: Optional[int] = None
+    documento: Optional[str]  = None
+    fecha_nacimiento: Optional[date] = None
 
 class EmpleadoOut(BaseModel):
     id_empleado: int

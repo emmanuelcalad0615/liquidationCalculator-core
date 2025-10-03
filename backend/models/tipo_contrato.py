@@ -6,7 +6,7 @@ class TipoContrato(Base):
     __tablename__ = "tipo_contrato"
 
     id_tipo_contrato = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    descripcion = Column(String(255), nullable=False)
+    descripcion = Column(String(255), nullable=False, unique = True)
     contratos = relationship("Contrato", back_populates="tipo_contrato")
 
 

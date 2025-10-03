@@ -5,7 +5,7 @@ from database import Base
 class MotivoTerminacion(Base):
     __tablename__ = "motivo_terminacion"
     id_motivo_terminacion = Column(Integer, primary_key = True, index = True, autoincrement = True)
-    descripcion = Column(String(255), nullable=False)
+    descripcion = Column(String(255), nullable=False, unique = True)
     liquidaciones = relationship("Liquidacion", back_populates = "motivo_terminacion")
 
     def __repr__(self):
