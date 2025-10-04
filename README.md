@@ -127,6 +127,24 @@ liquidationcalculator-core/
 
 - El frontend consume los endpoints del backend usando la variable REACT_APP_API_URL.
 
+## 10. Acceso a la Documentación de la API (Swagger)
+
+### Una vez que el contenedor del backend esté en ejecución, la documentación interactiva generada por FastAPI se puede consultar en el navegador desde la siguiente URL:
+
+### Swagger UI:
+
+```bash
+http://localhost:8000/docs
+```
+
+### ReDoc (documentación alternativa):
+```bash
+http://localhost:8000/redoc
+```
+## IMPORTANTE!
+- Debe contemplar, que para registrar usuarios, debe hacerlo desde aquí y no desde la interfaz gráfica. Primero es necesario crear uno o más tipos de documento y posteriormente crear un usuario con alguno de los tipos de documentos previamente creados; y de esta manera, podrá porbar el login en la interfaz grafica.
+- El token de acceso y la información de logueo del usuario, se está alojando en el SessionStorage del navegador por el momento.
+
 ## Créditos
 ### Proyecto desarrollado por: Emmanuel Calad.
 
