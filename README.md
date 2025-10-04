@@ -28,80 +28,80 @@ Antes de comenzar, asegúrate de tener:
 ## 1. Clonar el proyecto
 
 ```bash
-git clone https://github.com/<tu_usuario>/<tu_repositorio>.git
+git clone "https://github.com/emmanuelcalad0615/liquidationCalculator-core.git"
 cd liquidationcalculator-core
-2. Crear la base de datos en Neon.tech
-Ingresa a https://neon.tech
+```
+## 2. Crear la base de datos en Neon.tech
 
-Crea un nuevo proyecto PostgreSQL
+- Ingresa a https://neon.tech
 
-Copia la cadena de conexión desde la pestaña “Connection Details”, algo como:
+- Crea un nuevo proyecto PostgreSQL
 
-php-template
-Copiar código
-postgresql://<usuario>:<contraseña>@<host>/<base_de_datos>?sslmode=require
-3. Crear el archivo .env en /backend
-Crea un archivo llamado .env dentro de la carpeta backend/ con el siguiente contenido:
+- Copia la cadena de conexión desde la pestaña “Connection Details”, algo como:
 
-env
-Copiar código
-DATABASE_URL="postgresql://neondb_owner:npg_4txuEmzGh7vo@ep-summer-unit-adlch0k8-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+- postgresql://<usuario>:<contraseña>@<host>/<base_de_datos>?sslmode=require
+
+## 3. Crear el archivo .env en /backend
+### Crea un archivo llamado .env dentro de la carpeta backend/ con el siguiente contenido:
+```bash
+DATABASE_URL="Tu conexión con NeonTech"
 SECRET_KEY="clave_secreta_mi_hermanito"
 FRONTEND_URL=["http://localhost:3000", "http://127.0.0.1:3000"]
-4. Ejecutar la aplicación con Docker Compose
-Desde la raíz del proyecto (donde está docker-compose.yml), ejecuta:
+```
+## 4. Ejecutar la aplicación con Docker Compose
+### Desde la raíz del proyecto (donde está docker-compose.yml), ejecuta:
 
-bash
-Copiar código
+```bash
 docker compose up -d
+```
 Esto hará lo siguiente:
 
-Descargar las imágenes desde Docker Hub:
+- Descargar las imágenes desde Docker Hub:
 
-emmanuecalad/liquidation-calculator-backend
+-  emmanuecalad/liquidation-calculator-backend
 
-emmanuecalad/liquidation-calculator-frontend
+- emmanuecalad/liquidation-calculator-frontend
 
-Crear los contenedores
+- Crear los contenedores
 
-Levantar automáticamente el backend y el frontend
+- Levantar automáticamente el backend y el frontend
 
-5. Acceder a la aplicación
-Frontend (React): http://localhost:3000
+# 5. Acceder a la aplicación
+- Frontend (React): http://localhost:3000
 
-Backend (FastAPI Docs): http://localhost:8000/docs
+- Backend (FastAPI Docs): http://localhost:8000/docs
 
-6. Comandos útiles de Docker
-Ver contenedores activos:
+## 6. Comandos útiles de Docker
+### Ver contenedores activos:
 
-bash
-Copiar código
+```bash
 docker ps
-Detener la aplicación:
+```
+### Detener la aplicación:
 
-bash
-Copiar código
+```bash
 docker compose down
-Ver logs del backend:
+```
+### Ver logs del backend:
 
-bash
-Copiar código
+```bash
+
 docker logs backend_app
-Ver logs del frontend:
+```
+### Ver logs del frontend:
 
-bash
-Copiar código
+```bash
 docker logs frontend_app
-7. Variables importantes
-Variable	Descripción	Ubicación
-DATABASE_URL	URL de conexión a PostgreSQL (Neon.tech)	backend/.env
-SECRET_KEY	Clave secreta del backend	backend/.env
-FRONTEND_URL	URLs permitidas para CORS	backend/.env
-REACT_APP_API_URL	URL interna del backend para el frontend	docker-compose.yml
+```
+## 7. Variables importantes
+- Variable	Descripción	Ubicación
+- DATABASE_URL	URL de conexión a PostgreSQL (Neon.tech)	backend/.env
+- SECRET_KEY	Clave secreta del backend	backend/.env
+- FRONTEND_URL	URLs permitidas para CORS	backend/.env
+- REACT_APP_API_URL	URL interna del backend para el frontend	docker-compose.yml
 
-8. Estructura del proyecto
-bash
-Copiar código
+##8. Estructura del proyecto
+```bash
 liquidationcalculator-core/
 │
 ├── backend/                   # API en FastAPI
@@ -117,30 +117,26 @@ liquidationcalculator-core/
 │   └── Dockerfile
 │
 └── docker-compose.yml         # Orquestador de backend y frontend
-9. Flujo de ejecución
-El contenedor backend_app levanta la API de FastAPI en el puerto 8000.
+``` 
+## 9. Flujo de ejecución
+- El contenedor backend_app levanta la API de FastAPI en el puerto 8000.
 
-El contenedor frontend_app sirve la aplicación React compilada en el puerto 3000.
+- El contenedor frontend_app sirve la aplicación React compilada en el puerto 3000.
 
-El backend se comunica con la base de datos PostgreSQL alojada en Neon.tech.
+- El backend se comunica con la base de datos PostgreSQL alojada en Neon.tech.
 
-El frontend consume los endpoints del backend usando la variable REACT_APP_API_URL.
+- El frontend consume los endpoints del backend usando la variable REACT_APP_API_URL.
 
-Créditos
-Proyecto desarrollado por Emmanuel Calad.
+## Créditos
+### Proyecto desarrollado por: Emmanuel Calad.
 
-Imágenes Docker públicas:
+## Imágenes Docker públicas:
 
-Backend → emmanuecalad/liquidation-calculator-backend
+- Backend → emmanuecalad/liquidation-calculator-backend
 
-Frontend → emmanuecalad/liquidation-calculator-frontend
+- Frontend → emmanuecalad/liquidation-calculator-frontend
 
-yaml
-Copiar código
 
----
-
-¿Quieres que te lo genere como archivo `.md` descargable para ponerlo directamente en tu carpeta del proyecto?
 
 
 
