@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings
 class Setting(BaseSettings):
     database_url: str
     secret_key: str
+    frontend_url: list[str]
+
 
     class Config:
         env_file = ".env"

@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  backend:
+    image: emmanuecalad/liquidation-calculator-backend:latest
+    container_name: backend_app
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://neondb_owner:npg_4txuEmzGh7vo@ep-summer-unit-adlch0k8-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+    ports:
+      - "8000:8000"
+
+  frontend:
+    image: emmanuecalad/liquidation-calculator-frontend:latest
+    container_name: frontend_app
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      REACT_APP_API_URL: "http://backend:8000"
+    depends_on:
+      - backend

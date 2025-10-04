@@ -1,0 +1,29 @@
+# Archivos de Python que no son necesarios
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+
+
+# Logs
+*.log
+
+# Git
+.git/
+.gitignore
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# Otros innecesarios
+tests/
+docs/
