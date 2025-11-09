@@ -19,7 +19,4 @@ yarn-error.log
 *.swp
 
 # Archivos de entorno locales
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+

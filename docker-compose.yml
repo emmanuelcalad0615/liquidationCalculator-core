@@ -1,12 +1,27 @@
-version: "3.9"
 
 services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Joaco06151970
+      MYSQL_DATABASE: liquidation
+      MYSQL_USER: user
+      MYSQL_PASSWORD: Joaco06151970
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   backend:
     image: emmanuecalad/liquidation-calculator-backend:latest
     container_name: backend_app
     restart: always
-    environment:
-      DATABASE_URL: postgresql://neondb_owner:npg_4txuEmzGh7vo@ep-summer-unit-adlch0k8-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+    depends_on:
+      - mysql_db
+    env_file:
+      - .env
     ports:
       - "8000:8000"
 
@@ -14,9 +29,12 @@ services:
     image: emmanuecalad/liquidation-calculator-frontend:latest
     container_name: frontend_app
     restart: always
+    depends_on:
+      - backend
     ports:
       - "3000:80"
     environment:
       REACT_APP_API_URL: "http://backend:8000"
-    depends_on:
-      - backend
+
+volumes:
+  mysql_data:

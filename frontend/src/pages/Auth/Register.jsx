@@ -132,13 +132,13 @@ const Register = () => {
               required
             >
               <option value="">Selecciona...</option>
-              <option value="0">Cédula de Ciudadanía</option>
-              <option value="1">Tarjeta de Identidad</option>
-              <option value="2">Cédula de Extranjería</option>
-              <option value="3">Pasaporte</option>
+              <option value="1">Cédula de Ciudadanía</option>
+              <option value="2">Tarjeta de Identidad</option>
+              <option value="3">Cédula de Extranjería</option>
+              <option value="4">Pasaporte</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group">  
             <label htmlFor="documento">Número de documento</label>
             <input
               type="text"
