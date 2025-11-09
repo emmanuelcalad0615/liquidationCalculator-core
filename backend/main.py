@@ -17,6 +17,7 @@ from routers.tipo_contrato_router import router as tipo_contrato_router
 from routers.liquidacion_router import router as liquidacion_router
 from routers.detalle_liquidacion_router import router as detalle_liquidacion_router
 from routers.motivo_terminacion_router import router as motivo_terminacion_router
+from routers.calc_liquidacion_router import router as cal_liquidacion_router
 from config import settings
 from sqlalchemy.orm import Session
 
@@ -59,7 +60,23 @@ def init_catalogos():
 
         else:
             print("⚠️ Tabla tipo_contrato ya contenía datos.")
-
+        
+        # Inicializar Motivo Terminación
+        if session.query(MotivoTerminacion).count() == 0:
+            motivos_terminacion = [
+                {"id_motivo_terminacion": 1, "descripcion": "Terminación de contrato a término fijo"},
+                {"id_motivo_terminacion": 2, "descripcion": "Renuncia voluntaria"},
+                {"id_motivo_terminacion": 3, "descripcion": "Despido con justa causa"},
+                {"id_motivo_terminacion": 4, "descripcion": "Despido sin justa causa"},
+                {"id_motivo_terminacion": 5, "descripcion": "Mutuo acuerdo"},
+                {"id_motivo_terminacion": 6, "descripcion": "Fin de obra o labor"},
+            ]
+            session.bulk_insert_mappings(MotivoTerminacion, motivos_terminacion)
+            print("✅ Tabla motivo_terminacion inicializada.")
+        else:
+            print("⚠️ Tabla motivo_terminacion ya contenía datos.")
+        
+        
         session.commit()
 
 
@@ -90,3 +107,5 @@ app.include_router(tipo_contrato_router)
 app.include_router(liquidacion_router)
 app.include_router(detalle_liquidacion_router)
 app.include_router(motivo_terminacion_router)
+app.include_router(liquidacion_router)
+app.include_router(cal_liquidacion_router)
