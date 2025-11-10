@@ -8,7 +8,7 @@ class DetalleLiquidacion(Base):
     id_detalle = Column(Integer, primary_key = True, index = True, autoincrement = True)
     id_liquidacion = Column(Integer, ForeignKey("liquidacion.id_liquidacion"), nullable = False)
     concepto = Column(String(255), nullable = False )
-    valor = Column(Numeric(10, 2), nullable = False)
+    valor = Column(Numeric(30, 2), nullable = False)
     liquidacion = relationship("Liquidacion", back_populates = "detalles_liquidacion")
 
     def __repr__(self):

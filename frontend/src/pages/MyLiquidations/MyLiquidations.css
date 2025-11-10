@@ -1,0 +1,38 @@
+/* Lista de liquidaciones */
+.liquidacion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+/* Cabecera de cada tarjeta */
+.resultado-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Botón eliminar */
+.delete-btn {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.delete-btn:hover {
+  background-color: #c53030;
+  transform: scale(1.05);
+}
+
+/* Sin datos */
+.no-data {
+  text-align: center;
+  color: #666;
+  margin-top: 1rem;
+}

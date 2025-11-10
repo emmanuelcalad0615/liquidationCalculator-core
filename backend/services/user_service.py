@@ -63,6 +63,7 @@ def login_user(db: Session, email: str, password: str):
 
         token = create_access_token({"sub": user.email})
         data_response = TokenResponse(
+            id = user.id_empleado,
             access_token=token, 
             token_type="bearer", 
             username=user.username, 

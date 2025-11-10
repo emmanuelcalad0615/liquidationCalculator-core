@@ -31,6 +31,14 @@ def get_contrato_by_id(db: Session, id_contrato: int):
         raise HTTPException(404, "Contrato no encontrado")
     return contrato
 
+def get_contratos_by_empleado(db: Session, id_empleado: int):
+    contratos = db.query(Contrato).filter(Contrato.id_empleado == id_empleado).all()
+    if not contratos:
+        raise HTTPException(404, f"No se encontraron contratos para el empleado con ID {id_empleado}")
+    return contratos
+
+
+
 
 def update_contrato(db: Session, id_contrato: int, contrato_update: ContratoUpdate):
     contrato = get_contrato_by_id(db, id_contrato)

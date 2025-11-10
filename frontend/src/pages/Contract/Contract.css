@@ -1,0 +1,132 @@
+/* ============================= */
+/* Estilos para vista Contratos  */
+/* ============================= */
+
+.contratos-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  padding: 20px;
+}
+
+.contratos-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px 50px;
+  width: 420px;
+  transition: all 0.3s ease;
+}
+
+.contratos-card:hover {
+  transform: translateY(-3px);
+}
+
+.contratos-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00796b;
+  margin-bottom: 20px;
+}
+
+.contratos-form .form-group {
+  margin-bottom: 15px;
+}
+
+.contratos-form label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.contratos-form input,
+.contratos-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.contratos-form input:focus,
+.contratos-form select:focus {
+  border-color: #00796b;
+}
+
+.contratos-button {
+  width: 100%;
+  background-color: #00796b;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.contratos-button:hover {
+  background-color: #004d40;
+}
+
+.contratos-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.contratos-link a {
+  color: #00796b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contratos-link a:hover {
+  text-decoration: underline;
+}
+
+/* 🔹 Página principal con posición relativa */
+.contract-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* 🔹 Botón superior izquierdo */
+.back-home-top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #0056b3, #007bff);
+  color: white;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+}
+
+/* 🔹 Efecto al pasar el mouse */
+.back-home-top:hover {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* 🔹 Asegura que el formulario no se superponga con el botón */
+.auth-card {
+  margin-top: 60px;
+}

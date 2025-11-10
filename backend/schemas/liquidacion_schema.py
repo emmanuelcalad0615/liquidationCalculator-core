@@ -1,6 +1,24 @@
 from pydantic import BaseModel
 from datetime import date
-from typing import Optional
+from typing import List, Optional
+
+
+class DetalleLiquidacionOut(BaseModel):
+    id_detalle: int
+    concepto: str
+    valor: float
+
+    class Config:
+        orm_mode = True
+
+
+class MotivoTerminacionOut(BaseModel):
+    id_motivo_terminacion: int
+    descripcion: str
+
+    class Config:
+        orm_mode = True
+
 
 class LiquidacionBase(BaseModel):
     id_contrato: int
@@ -26,6 +44,9 @@ class LiquidacionOut(BaseModel):
     fecha_liquidacion: date
     id_motivo_terminacion: int
     total_liquidacion: float
+    motivo_terminacion: Optional[MotivoTerminacionOut]
+    detalles_liquidacion: List[DetalleLiquidacionOut] = []
 
     class Config:
         orm_mode = True
+

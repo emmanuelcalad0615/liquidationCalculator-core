@@ -1,0 +1,102 @@
+# ============================================
+# 🌐 GLOBAL
+# ============================================
+.DS_Store
+Thumbs.db
+*.log
+*.sqlite3
+*.pyc
+*.pyo
+__pycache__/
+*.swp
+*.bak
+*.tmp
+*.orig
+*.out
+*.pid
+
+# ============================================
+# 🐍 BACKEND (Flask / FastAPI / SQLAlchemy)
+# ============================================
+venv/
+.env
+.env.*
+instance/
+.mypy_cache/
+.pytest_cache/
+.cache/
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Migraciones (si usas Alembic o Flask-Migrate)
+migrations/versions/
+migrations/*.log
+
+# Archivos de entorno o config locales
+config.json
+secrets.json
+
+# ============================================
+# ⚛️ FRONTEND (React / Node)
+# ============================================
+frontend/node_modules/
+frontend/.env
+frontend/.env.*
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/out/
+frontend/.cache/
+frontend/coverage/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# ============================================
+# 🐳 DOCKER
+# ============================================
+docker-compose.override.yml
+.docker/
+*.tar
+*.img
+*.pid
+*.sock
+*.log
+*.tmp
+.env.docker
+
+# ============================================
+# 🧪 TESTS / CI
+# ============================================
+.coverage
+htmlcov/
+pytestdebug.log
+nosetests.xml
+test-results/
+coverage.xml
+junit.xml
+
+# ============================================
+# 🧰 EDITOR / IDE
+# ============================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# ============================================
+# 📦 DEPLOYMENT / CI
+# ============================================
+*.tar.gz
+*.zip
+*.tgz
+build/
+dist/
+.eggs/
+*.egg-info/
+MANIFEST

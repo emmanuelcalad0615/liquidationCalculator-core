@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
 from models.liquidacion import Liquidacion
@@ -17,7 +17,20 @@ def create_liquidacion(db: Session, liquidacion: LiquidacionCreate):
         db.add(db_liquidacion)
         db.commit()
         db.refresh(db_liquidacion)
-        return db_liquidacion
+
+# 🔹 Traer la liquidación con relaciones completas
+        liquidacion_full = (
+            db.query(Liquidacion)
+            .options(
+                joinedload(Liquidacion.motivo_terminacion),
+                joinedload(Liquidacion.detalles_liquidacion)
+            )
+            .filter(Liquidacion.id_liquidacion == db_liquidacion.id_liquidacion)
+            .first()
+        )
+
+        return liquidacion_full
+
 
     except IntegrityError:
         db.rollback()
@@ -31,13 +44,26 @@ def create_liquidacion(db: Session, liquidacion: LiquidacionCreate):
 
 
 def get_all_liquidaciones(db: Session):
-    return db.query(Liquidacion).all()
+    return (
+        db.query(Liquidacion)
+        .options(
+            joinedload(Liquidacion.motivo_terminacion),
+            joinedload(Liquidacion.detalles_liquidacion)
+        )
+        .all()
+    )
 
 
 def get_liquidacion_by_id(db: Session, id_liquidacion: int):
-    liquidacion = db.query(Liquidacion).filter(
-        Liquidacion.id_liquidacion == id_liquidacion
-    ).first()
+    liquidacion = (
+        db.query(Liquidacion)
+        .options(
+            joinedload(Liquidacion.motivo_terminacion),
+            joinedload(Liquidacion.detalles_liquidacion)
+        )
+        .filter(Liquidacion.id_liquidacion == id_liquidacion)
+        .first()
+    )
 
     if not liquidacion:
         raise HTTPException(status_code=404, detail="Liquidación no encontrada")

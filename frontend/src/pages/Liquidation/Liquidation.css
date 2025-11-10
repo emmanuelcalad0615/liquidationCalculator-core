@@ -1,0 +1,184 @@
+/* ================================== */
+/* Estilos para vista Liquidaciones   */
+/* ================================== */
+
+.liquidaciones-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff8e1, #ffffff);
+  padding: 40px 20px;
+}
+
+.liquidaciones-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 40px 50px;
+  width: 450px;
+  transition: all 0.3s ease;
+}
+
+.liquidaciones-card:hover {
+  transform: translateY(-3px);
+}
+
+.liquidaciones-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #f57c00;
+  margin-bottom: 25px;
+}
+
+.liquidaciones-form .form-group {
+  margin-bottom: 15px;
+}
+
+.liquidaciones-form label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.liquidaciones-form input,
+.liquidaciones-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.liquidaciones-form input:focus,
+.liquidaciones-form select:focus {
+  border-color: #f57c00;
+}
+
+.liquidaciones-button {
+  width: 100%;
+  background-color: #f57c00;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.liquidaciones-button:hover {
+  background-color: #e65100;
+}
+
+.resultado-card {
+  background: #fff3e0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 25px;
+  box-shadow: 0 2px 10px rgba(245, 124, 0, 0.1);
+}
+
+.resultado-card h3 {
+  color: #e65100;
+  margin-bottom: 10px;
+}
+
+.resultado-card p,
+.resultado-card li {
+  color: #333;
+  font-size: 0.95rem;
+  margin: 5px 0;
+}
+
+.resultado-card hr {
+  border: none;
+  border-top: 1px solid #f57c00;
+  margin: 10px 0;
+}
+
+.liquidaciones-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.liquidaciones-link a {
+  color: #f57c00;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.liquidaciones-link a:hover {
+  text-decoration: underline;
+}
+.back-home-btn {
+  background-color: #6c757d;
+  margin-top: 10px;
+  text-align: center;
+  display: block;
+}
+
+.back-home-btn:hover {
+  background-color: #5a6268;
+}
+.back-home-floating {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.back-home-floating:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+/* 🔹 Posición del botón de regreso */
+.back-home-top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #0056b3, #007bff);
+  color: white;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Hover y efecto visual */
+.back-home-top:hover {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* Si tu contenedor tiene position: relative */
+.liquidacion-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Asegura que el botón esté visible sobre el fondo */
+.back-home-top {
+  z-index: 10;
+}

@@ -23,8 +23,10 @@ class UserDelete(BaseModel):
     email: EmailStr
 
 class TokenResponse(BaseModel):
+    id: int
     access_token: str
     token_type: str 
     username: str 
     email: str
+    
 

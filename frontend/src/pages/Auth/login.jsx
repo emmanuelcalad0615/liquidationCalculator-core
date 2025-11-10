@@ -17,6 +17,11 @@ const Login = () => {
 
   const { email, password } = formData;
 
+  // ✅ Función para manejar cambios en los inputs
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   useEffect(() => {
     const urlEmail = searchParams.get('email');
     const fromRegister = searchParams.get('fromRegister');
@@ -30,8 +35,6 @@ const Login = () => {
     }
   }, [searchParams]);
 
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -40,16 +43,28 @@ const Login = () => {
 
     try {
       const resp = await loginUser({ email, password });
-      
+
       if (resp.ok) {
-        const token = resp.data?.access_token || resp.data?.token;
-        const user = resp.data?.username;
-        
+        const data = resp.data;
+
+        // Extraemos los datos que vienen desde el backend
+        const token = data?.access_token || data?.token;
+        const userData = {
+          id: data?.id,
+          username: data?.username,
+          email: data?.email,
+        };
+
+        // Guardar token en el AuthService
         if (token) {
-          setToken(token); 
+          setToken(token);
         }
-        sessionStorage.setItem('user', JSON.stringify({ user }));
-        sessionStorage.setItem('email', JSON.stringify({ email }));
+
+        // 🔥 Guardar todo en sessionStorage
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', JSON.stringify(userData));
+
+        // Navegamos al home
         navigate('/');
       } else {
         setError(resp.message || 'Credenciales incorrectas');
@@ -63,6 +78,10 @@ const Login = () => {
 
   return (
     <div className="auth-container">
+      {/* 🔹 Botón arriba a la izquierda */}
+            <Link to="/" className="back-home-top">
+              ⬅️ Volver al Home
+            </Link>
       <div className="auth-card">
         <div className="logo">
           <img src={logo} alt="SINTIENDO Logo" className="logo-image" />

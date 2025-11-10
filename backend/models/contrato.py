@@ -9,7 +9,7 @@ class Contrato(Base):
     id_tipo_contrato = Column(Integer, ForeignKey("tipo_contrato.id_tipo_contrato"), nullable = False)
     fecha_inicio = Column(Date, nullable=False)
     fecha_fin = Column(Date, nullable=True)
-    salario_mensual = Column(Numeric(10, 2), nullable = False)
+    salario_mensual = Column(Numeric(20, 2), nullable = False)
     auxilio_transporte = Column(Integer, nullable=True)
     empleado = relationship("Empleado", back_populates="contratos")
     tipo_contrato = relationship("TipoContrato", back_populates="contratos")

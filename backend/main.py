@@ -86,7 +86,7 @@ init_catalogos()
 
 app = FastAPI()
 
-app.title = "TaxCalculator"
+app.title = "LiquidationCalculator"
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.frontend_url,

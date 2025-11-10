@@ -31,3 +31,10 @@ def update_contrato_route(id_contrato: int, payload: ContratoUpdate, db: Session
 @router.delete("/{id_contrato}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_contrato_route(id_contrato: int, db: Session = Depends(get_db)):
     return contrato_service.delete_contrato(db, id_contrato)
+
+@router.get("/empleado/{id_empleado}", response_model=list[ContratoOut])
+def get_contratos_by_empleado_route(id_empleado: int, db: Session = Depends(get_db)):
+    """
+    Obtener todos los contratos asociados a un empleado específico.
+    """
+    return contrato_service.get_contratos_by_empleado(db, id_empleado)

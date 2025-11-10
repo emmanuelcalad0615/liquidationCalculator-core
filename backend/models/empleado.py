@@ -10,11 +10,12 @@ class Empleado(Base):
     apellidos = Column(String(100), nullable=False)
     tipo_documento = Column(Integer, ForeignKey("tipo_documento.id_tipo_documento"), nullable=False)
     documento = Column(String(20), nullable=False, unique=True)
-    fecha_nacimiento = Column(Date, nullable = False)
-    activo = Column(Boolean, default = True)
+    fecha_nacimiento = Column(Date, nullable=False)
+    activo = Column(Boolean, default=True)
 
-    contratos = relationship("Contrato", back_populates = "empleado")
+    contratos = relationship("Contrato", back_populates="empleado")
     tipo_documento_rel = relationship("TipoDocumento", back_populates="empleados")
-    usuario = relationship("User", back_populates = "empleado")
+    usuario = relationship("User", back_populates="empleado", uselist=False)
+
     def __repr__(self):
-        return f"id: {self.id_empleado}, nombre: {self.nombres} {self.apellidos} "
+        return f"<Empleado(id={self.id_empleado}, nombre={self.nombres} {self.apellidos})>"

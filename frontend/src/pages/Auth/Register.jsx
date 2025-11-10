@@ -81,6 +81,9 @@ const Register = () => {
 
   return (
     <div className="auth-container">
+      <Link to="/" className="back-home-top">
+                    ⬅️ Volver al Home
+                  </Link>
       <div className="auth-card">
         <div className="logo">
           <img src={logo} alt="Liquidación Segura Logo" className="logo-image" />
