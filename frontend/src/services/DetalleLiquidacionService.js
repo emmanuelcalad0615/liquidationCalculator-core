@@ -1,6 +1,5 @@
 import api from "./api";
 
-// ✅ Crear detalle de liquidación
 export const createDetalleLiquidacion = async (data) => {
   try {
     const response = await api.post("/detalle_liquidacion/", data);
@@ -14,7 +13,6 @@ export const createDetalleLiquidacion = async (data) => {
   }
 };
 
-// ✅ Obtener todos los detalles de liquidación
 export const getAllDetallesLiquidacion = async () => {
   try {
     const response = await api.get("/detalle_liquidacion/");
@@ -28,7 +26,6 @@ export const getAllDetallesLiquidacion = async () => {
   }
 };
 
-// ✅ Obtener detalle de liquidación por ID
 export const getDetalleLiquidacionById = async (id_detalle) => {
   try {
     const response = await api.get(`/detalle_liquidacion/${id_detalle}`);
@@ -42,7 +39,6 @@ export const getDetalleLiquidacionById = async (id_detalle) => {
   }
 };
 
-// ✅ Actualizar detalle de liquidación
 export const updateDetalleLiquidacion = async (id_detalle, data) => {
   try {
     const response = await api.put(`/detalle_liquidacion/${id_detalle}`, data);
@@ -56,7 +52,6 @@ export const updateDetalleLiquidacion = async (id_detalle, data) => {
   }
 };
 
-// ✅ Eliminar detalle de liquidación
 export const deleteDetalleLiquidacion = async (id_detalle) => {
   try {
     await api.delete(`/detalle_liquidacion/${id_detalle}`);

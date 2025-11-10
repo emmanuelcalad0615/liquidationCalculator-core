@@ -9,7 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";const a
 });
 
 api.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("token"); // ojo: en producción considerar httpOnly cookie
+  const token = sessionStorage.getItem("token"); 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

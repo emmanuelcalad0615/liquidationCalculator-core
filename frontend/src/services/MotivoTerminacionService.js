@@ -2,7 +2,6 @@ import api from "./api";
 
 const BASE_URL = "/motivo_terminacion";
 
-// ✅ Obtener todos los motivos de terminación
 export const getAllMotivosTerminacion = async () => {
   try {
     const response = await api.get(BASE_URL);
@@ -13,7 +12,6 @@ export const getAllMotivosTerminacion = async () => {
   }
 };
 
-// ✅ Obtener un motivo por ID
 export const getMotivoTerminacionById = async (id) => {
   try {
     const response = await api.get(`${BASE_URL}/${id}`);
@@ -24,7 +22,6 @@ export const getMotivoTerminacionById = async (id) => {
   }
 };
 
-// ✅ Crear un nuevo motivo
 export const createMotivoTerminacion = async (payload) => {
   try {
     const response = await api.post(BASE_URL, payload);
@@ -35,7 +32,6 @@ export const createMotivoTerminacion = async (payload) => {
   }
 };
 
-// ✅ Actualizar motivo existente
 export const updateMotivoTerminacion = async (id, payload) => {
   try {
     const response = await api.put(`${BASE_URL}/${id}`, payload);
@@ -46,7 +42,6 @@ export const updateMotivoTerminacion = async (id, payload) => {
   }
 };
 
-// ✅ Eliminar motivo
 export const deleteMotivoTerminacion = async (id) => {
   try {
     await api.delete(`${BASE_URL}/${id}`);

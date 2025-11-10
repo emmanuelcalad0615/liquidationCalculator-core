@@ -17,7 +17,6 @@ const Contratos = () => {
   const [tiposContrato, setTiposContrato] = useState([]);
   const [mensaje, setMensaje] = useState("");
 
-  // ✅ Cargar id_empleado del sessionStorage
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     if (user && user.id) {
@@ -27,7 +26,6 @@ const Contratos = () => {
     }
   }, []);
 
-  // ✅ Cargar tipos de contrato desde el backend
   useEffect(() => {
     const fetchTiposContrato = async () => {
       const res = await getAllTipoContratos();

@@ -1,6 +1,5 @@
 import api from "./api";
 
-// ✅ Crear liquidación
 export const createLiquidacion = async (data) => {
   try {
     const response = await api.post("/liquidacion/", data);
@@ -14,7 +13,6 @@ export const createLiquidacion = async (data) => {
   }
 };
 
-// ✅ Obtener todas las liquidaciones
 export const getAllLiquidaciones = async () => {
   try {
     const response = await api.get("/liquidacion/");
@@ -28,7 +26,6 @@ export const getAllLiquidaciones = async () => {
   }
 };
 
-// ✅ Obtener liquidación por ID
 export const getLiquidacionById = async (id_liquidacion) => {
   try {
     const response = await api.get(`/liquidacion/${id_liquidacion}`);
@@ -42,7 +39,6 @@ export const getLiquidacionById = async (id_liquidacion) => {
   }
 };
 
-// ✅ Actualizar liquidación
 export const updateLiquidacion = async (id_liquidacion, data) => {
   try {
     const response = await api.put(`/liquidacion/${id_liquidacion}`, data);
@@ -56,7 +52,6 @@ export const updateLiquidacion = async (id_liquidacion, data) => {
   }
 };
 
-// ✅ Eliminar liquidación
 export const deleteLiquidacion = async (id_liquidacion) => {
   try {
     await api.delete(`/liquidacion/${id_liquidacion}`);

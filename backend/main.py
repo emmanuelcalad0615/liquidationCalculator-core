@@ -42,10 +42,10 @@ def init_catalogos():
                 {"id_tipo_documento": 4, "descripcion": "Pasaporte"},
             ]
             session.bulk_insert_mappings(TipoDocumento, tipos_documento)
-            print("✅ Tabla tipo_documento inicializada.")
+            print("Tabla tipo_documento inicializada.")
 
         else:
-            print("⚠️ Tabla tipo_documento ya contenía datos.")
+            print("Tabla tipo_documento ya contenía datos.")
 
         # Inicializar Tipo Contrato
         if session.query(TipoContrato).count() == 0:
@@ -56,10 +56,10 @@ def init_catalogos():
                 {"id_tipo_contrato": 4, "descripcion": "Contrato de aprendizaje"},
             ]
             session.bulk_insert_mappings(TipoContrato, tipos_contrato)
-            print("✅ Tabla tipo_contrato inicializada.")
+            print("Tabla tipo_contrato inicializada.")
 
         else:
-            print("⚠️ Tabla tipo_contrato ya contenía datos.")
+            print("Tabla tipo_contrato ya contenía datos.")
         
         # Inicializar Motivo Terminación
         if session.query(MotivoTerminacion).count() == 0:
@@ -72,9 +72,9 @@ def init_catalogos():
                 {"id_motivo_terminacion": 6, "descripcion": "Fin de obra o labor"},
             ]
             session.bulk_insert_mappings(MotivoTerminacion, motivos_terminacion)
-            print("✅ Tabla motivo_terminacion inicializada.")
+            print("Tabla motivo_terminacion inicializada.")
         else:
-            print("⚠️ Tabla motivo_terminacion ya contenía datos.")
+            print("Tabla motivo_terminacion ya contenía datos.")
         
         
         session.commit()

@@ -1,4 +1,4 @@
-import api from "./api"; // importa tu base de servicios
+import api from "./api"; 
 
 /**
  * Servicio para calcular la liquidación de un contrato.

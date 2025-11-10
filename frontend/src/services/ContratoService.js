@@ -1,6 +1,5 @@
 import api from "./api";
 
-// ✅ Crear contrato
 export const createContrato = async (data) => {
   try {
     const response = await api.post("/contrato/", data);
@@ -14,7 +13,6 @@ export const createContrato = async (data) => {
   }
 };
 
-// ✅ Obtener todos los contratos
 export const getAllContratos = async () => {
   try {
     const response = await api.get("/contrato/");
@@ -28,7 +26,6 @@ export const getAllContratos = async () => {
   }
 };
 
-// ✅ Obtener contrato por ID
 export const getContratoById = async (id_contrato) => {
   try {
     const response = await api.get(`/contrato/${id_contrato}`);
@@ -42,7 +39,6 @@ export const getContratoById = async (id_contrato) => {
   }
 };
 
-// ✅ Obtener contratos por ID de empleado
 export const getContratosByEmpleado = async (id_empleado) => {
   try {
     const response = await api.get(`/contrato/empleado/${id_empleado}`);
@@ -58,7 +54,6 @@ export const getContratosByEmpleado = async (id_empleado) => {
   }
 };
 
-// ✅ Actualizar contrato
 export const updateContrato = async (id_contrato, data) => {
   try {
     const response = await api.put(`/contrato/${id_contrato}`, data);
@@ -72,7 +67,6 @@ export const updateContrato = async (id_contrato, data) => {
   }
 };
 
-// ✅ Eliminar contrato
 export const deleteContrato = async (id_contrato) => {
   try {
     await api.delete(`/contrato/${id_contrato}`);

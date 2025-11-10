@@ -1,3 +1,4 @@
+version: "3.9"
 
 services:
   mysql_db:
@@ -7,34 +8,38 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Joaco06151970
       MYSQL_DATABASE: liquidation
-      MYSQL_USER: user
-      MYSQL_PASSWORD: Joaco06151970
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pJoaco06151970"]
+      interval: 5s
+      retries: 10
+      start_period: 15s
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
 
   backend:
-    image: emmanuecalad/liquidation-calculator-backend:latest
-    container_name: backend_app
+    image: emmanuecalad/liquidation-backend:latest
+    container_name: backend
     restart: always
     depends_on:
-      - mysql_db
-    env_file:
-      - .env
+      mysql_db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=mysql+pymysql://root:Joaco06151970@mysql_db:3306/liquidation
+      - SECRET_KEY=clave_secreta_mi_hermanito
+      - FRONTEND_URL=["http://localhost:3000", "http://127.0.0.1:3000"]
     ports:
       - "8000:8000"
 
   frontend:
-    image: emmanuecalad/liquidation-calculator-frontend:latest
-    container_name: frontend_app
+    image: emmanuecalad/liquidation-frontend:latest
+    container_name: frontend
     restart: always
     depends_on:
       - backend
     ports:
       - "3000:80"
-    environment:
-      REACT_APP_API_URL: "http://backend:8000"
 
 volumes:
-  mysql_data:
+  db_data:

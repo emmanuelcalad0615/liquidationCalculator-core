@@ -1,6 +1,5 @@
 import api from "./api";
 
-// Crear un nuevo tipo de contrato
 export const createTipoContrato = async (payload) => {
   try {
     const response = await api.post("/tipo_contrato/", payload);
@@ -10,7 +9,6 @@ export const createTipoContrato = async (payload) => {
   }
 };
 
-// Obtener todos los tipos de contrato
 export const getAllTipoContratos = async () => {
   try {
     const response = await api.get("/tipo_contrato/");
@@ -20,7 +18,6 @@ export const getAllTipoContratos = async () => {
   }
 };
 
-// Obtener un tipo de contrato por ID
 export const getTipoContratoById = async (id) => {
   try {
     const response = await api.get(`/tipo_contrato/${id}`);
@@ -30,7 +27,6 @@ export const getTipoContratoById = async (id) => {
   }
 };
 
-// Actualizar un tipo de contrato
 export const updateTipoContrato = async (id, payload) => {
   try {
     const response = await api.put(`/tipo_contrato/${id}`, payload);
@@ -40,7 +36,6 @@ export const updateTipoContrato = async (id, payload) => {
   }
 };
 
-// Eliminar un tipo de contrato
 export const deleteTipoContrato = async (id) => {
   try {
     await api.delete(`/tipo_contrato/${id}`);
@@ -50,7 +45,6 @@ export const deleteTipoContrato = async (id) => {
   }
 };
 
-// 🔧 Función de manejo de errores reutilizable
 const handleError = (error) => {
   console.error("Error en TipoContratoService:", error);
   return {

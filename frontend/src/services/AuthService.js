@@ -12,15 +12,12 @@ const handleResponse = async (promise) => {
   }
 };
 
-// LOGIN → POST /auth/login
 export const loginUser = (credentials) =>
   handleResponse(api.post("/auth/login", credentials));
 
-// REGISTER → POST /auth/signup
 export const registerUser = (payload) =>
   handleResponse(api.post("/auth/singup", payload));
 
-// Token helpers
 export const setToken = (token) => sessionStorage.setItem("token", token);
 export const getToken = () => sessionStorage.getItem("token");
 export const removeToken = () => sessionStorage.removeItem("token");
