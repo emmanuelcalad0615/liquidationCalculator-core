@@ -1,7 +1,6 @@
 # Liquidation Calculator
 
-Aplicación web para calcular liquidaciones laborales, compuesta por un backend en FastAPI y un frontend en React, ambos ejecutados mediante Docker Compose.  
-La base de datos se aloja en Neon.tech (PostgreSQL).
+Aplicación web para calcular liquidaciones laborales, compuesta por un backend en FastAPI y un frontend en React, ambos ejecutados mediante Docker Compose.  La base de datos se aloja en un contenedor local de MySQL.
 
 ---
 
@@ -9,9 +8,11 @@ La base de datos se aloja en Neon.tech (PostgreSQL).
 
 - React — Frontend (interfaz web)
 - FastAPI — Backend (API REST)
-- PostgreSQL (Neon.tech) — Base de datos en la nube
+- MySQL (Contenedor Docker) — Base de datos local
 - Docker & Docker Compose — Contenedores
 - Docker Hub — Almacenamiento de imágenes
+- Prometheus — Herramienta de monitoreo y recolección de métricas.
+- Grafana — Plataforma de visualización de métricas y dashboards.
 
 ---
 
@@ -31,22 +32,18 @@ Antes de comenzar, asegúrate de tener:
 git clone "https://github.com/emmanuelcalad0615/liquidationCalculator-core.git"
 cd liquidationcalculator-core
 ```
-## 2. Crear la base de datos en Neon.tech
+## 2. Crear la base de datos en contenedor local MySQL
 
-- Ingresa a https://neon.tech
+NO ES NECESARIO CREAR UNA CUENTA EXTERNA. La base de datos se creará automáticamente en un contenedor local de MySQL usando Docker Compose.
 
-- Crea un nuevo proyecto PostgreSQL
-
-- Copia la cadena de conexión desde la pestaña “Connection Details”, algo como:
-
-- postgresql://<usuario>:<contraseña>@<host>/<base_de_datos>?sslmode=require
 
 ## 3. Crear el archivo .env en /backend
 ### Crea un archivo llamado .env dentro de la carpeta backend/ con el siguiente contenido:
 ```bash
-DATABASE_URL="Tu conexión con NeonTech"
-SECRET_KEY="clave_secreta_mi_hermanito"
+
+SECRET_KEY = "clave_secreta_mi_hermanito"
 FRONTEND_URL=["http://localhost:3000", "http://127.0.0.1:3000"]
+DATABASE_URL="mysql+pymysql://root:Joaco06151970@mysql_db:3306/liquidation
 ```
 ## 4. Ejecutar la aplicación con Docker Compose
 ### Desde la raíz del proyecto (donde está docker-compose.yml), ejecuta:
@@ -95,7 +92,7 @@ docker logs frontend_app
 ```
 ## 7. Variables importantes
 - Variable	Descripción	Ubicación
-- DATABASE_URL	URL de conexión a PostgreSQL (Neon.tech)	backend/.env
+- DATABASE_URL	URL de conexión a MySql	backend/.env
 - SECRET_KEY	Clave secreta del backend	backend/.env
 - FRONTEND_URL	URLs permitidas para CORS	backend/.env
 - REACT_APP_API_URL	URL interna del backend para el frontend	docker-compose.yml
@@ -104,26 +101,37 @@ docker logs frontend_app
 ```bash
 liquidationcalculator-core/
 │
-├── backend/                   # API en FastAPI
+├── kube/ # Configuraciones de Kubernetes (Deployments, Services, etc.)
+│   ├── backend-deployment.yaml
+│   ├── configmap.yaml
+│   ├── frontend-deployment.yaml
+│   ├── grafana-deployment.yaml
+│   ├── mysql-deployment.yaml
+│   ├── prometheus-deployment.yaml
+│   ├── secret.yaml
+│   └── prometheus.yaml 
+│
+├── backend/ # API en FastAPI
 │   ├── main.py
 │   ├── requirements.txt
 │   ├── Dockerfile
 │   └── .env
 │
-├── frontend/                  # Aplicación React
+├── frontend/ # Aplicación React
 │   ├── src/
 │   ├── public/
 │   ├── package.json
 │   └── Dockerfile
 │
-└── docker-compose.yml         # Orquestador de backend y frontend
+├── docker-compose.yml # Orquestador de backend, frontend y MySQL
+└── my.cnf # Archivo de configuración de MySQL (si aplica)
 ``` 
 ## 9. Flujo de ejecución
 - El contenedor backend_app levanta la API de FastAPI en el puerto 8000.
 
 - El contenedor frontend_app sirve la aplicación React compilada en el puerto 3000.
 
-- El backend se comunica con la base de datos PostgreSQL alojada en Neon.tech.
+- El backend se comunica con la base de datos MySQL local (usando el nombre de servicio db en el DATABASE_URL).
 
 - El frontend consume los endpoints del backend usando la variable REACT_APP_API_URL.
 
@@ -146,18 +154,10 @@ http://localhost:8000/redoc
 - El token de acceso y la información de logueo del usuario, se está alojando en el SessionStorage del navegador por el momento.
 
 ## Créditos
-### Proyecto desarrollado por: Emmanuel Calad.
+### Proyecto desarrollado por: Julian Ferrer, Jorge Arenas, Mauricio Marquez y Emmanuel Calad.
 
 ## Imágenes Docker públicas:
 
 - Backend → emmanuecalad/liquidation-calculator-backend
 
 - Frontend → emmanuecalad/liquidation-calculator-frontend
-
-
-
-
-
-
-
-
