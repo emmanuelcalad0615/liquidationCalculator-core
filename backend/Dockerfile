@@ -13,7 +13,7 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # Copiamos el archivo .env
-COPY .env .env
+#COPY .env .env
 
 EXPOSE 8000
 
