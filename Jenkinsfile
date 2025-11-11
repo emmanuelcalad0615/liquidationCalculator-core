@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     environment {
-        // Nombres de imágenes para testing
-        BACKEND_IMAGE = 'liquidation-backend-test'
-        FRONTEND_IMAGE = 'liquidation-frontend-test'
+        // Nombres de imágenes CON tu usuario de DockerHub
+        BACKEND_IMAGE = 'emmanuecalad/liquidation-backend-test'
+        FRONTEND_IMAGE = 'emmanuecalad/liquidation-frontend-test'
     }
     
     stages {
@@ -15,12 +15,14 @@ pipeline {
             }
         }
         
-        stage('Setup Python') {
+        stage('Setup Environment') {
             steps {
                 sh '''
-                    echo "🐍 Configurando Python..."
-                    python3 --version || (apt-get update && apt-get install -y python3 python3-venv)
-                    echo "✅ Python configurado"
+                    echo "🔧 Configurando entorno..."
+                    # Instalar python3-venv que es necesario para crear virtual environments
+                    apt-get update
+                    apt-get install -y python3-venv
+                    echo "✅ Entorno configurado"
                 '''
             }
         }
@@ -81,8 +83,11 @@ pipeline {
                             npm run build
                             echo "✅ Frontend build completado"
                         else
-                            echo "⚠️ Node.js no disponible, saltando build frontend"
-                            echo "✅ Frontend skip - Node.js requerido"
+                            echo "⚠️ Node.js no disponible, instalando..."
+                            apt-get install -y nodejs npm
+                            npm install
+                            npm run build
+                            echo "✅ Frontend build completado"
                         fi
                     '''
                 }
@@ -97,53 +102,25 @@ pipeline {
                     // Build Backend Image
                     dir('backend') {
                         sh """
-                            # Verificar si Docker está disponible
-                            if command -v docker >/dev/null 2>&1; then
-                                docker build \\
-                                    --build-arg SECRET_KEY='clave_secreta_mi_hermanito' \\
-                                    --build-arg DATABASE_URL='mysql+pymysql://root:Joaco06151970@mysql_db:3306/liquidation' \\
-                                    --build-arg FRONTEND_URL='http://localhost:3000,http://127.0.0.1:3000' \\
-                                    -t ${BACKEND_IMAGE}:${env.BUILD_NUMBER} .
-                                
-                                echo "✅ Backend image: ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
-                            else
-                                echo "⚠️ Docker no disponible, saltando build de imágenes"
-                            fi
+                            echo "Construyendo imagen backend..."
+                            docker build \\
+                                --build-arg SECRET_KEY='clave_secreta_mi_hermanito' \\
+                                --build-arg DATABASE_URL='mysql+pymysql://root:Joaco06151970@mysql_db:3306/liquidation' \\
+                                --build-arg FRONTEND_URL='http://localhost:3000,http://127.0.0.1:3000' \\
+                                -t ${BACKEND_IMAGE}:${env.BUILD_NUMBER} .
+                            
+                            echo "✅ Backend image: ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
                         """
                     }
                     
                     // Build Frontend Image  
                     dir('frontend') {
                         sh """
-                            if command -v docker >/dev/null 2>&1 && [ -f "Dockerfile" ]; then
-                                docker build -t ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} .
-                                echo "✅ Frontend image: ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}"
-                            else
-                                echo "⚠️ Docker no disponible o Dockerfile no encontrado, saltando..."
-                            fi
+                            echo "Construyendo imagen frontend..."
+                            docker build -t ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} .
+                            echo "✅ Frontend image: ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}"
                         """
                     }
-                }
-            }
-        }
-        
-        stage('Test Docker Images') {
-            steps {
-                script {
-                    echo "🔍 Probando imágenes Docker..."
-                    sh """
-                        # Verificar si Docker está disponible y tenemos imágenes
-                        if command -v docker >/dev/null 2>&1; then
-                            echo "=== Imágenes Docker creadas ==="
-                            docker images | grep -E "(liquidation-backend-test|liquidation-frontend-test)" || echo "No images found"
-                        else
-                            echo "Docker no disponible para verificación"
-                        fi
-                        
-                        echo "✅ Verificación completada"
-                        echo "Backend: ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
-                        echo "Frontend: ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}"
-                    """
                 }
             }
         }
@@ -151,26 +128,26 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
-                    echo "📤 Resumen final - Pipeline completado:"
+                    echo "📤 Subiendo imágenes a DockerHub..."
                     sh """
-                        echo "=== PIPELINE COMPLETADO ==="
-                        echo "✅ Checkout exitoso"
-                        echo "✅ Backend build exitoso" 
-                        echo "✅ Tests unitarios pasados"
-                        echo "✅ Frontend procesado"
-                        echo "✅ Imágenes Docker construidas"
-                        echo ""
-                        echo "=== IMÁGENES DOCKER ==="
-                        echo "Backend:  ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
+                        echo "=== SUBIENDO IMÁGENES A DOCKERHUB ==="
+                        echo "Backend: ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
                         echo "Frontend: ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}"
-                        echo "========================"
-                        echo ""
-                        echo "Para subir a DockerHub manualmente:"
-                        echo "  docker tag ${BACKEND_IMAGE}:${env.BUILD_NUMBER} emmanuecalad/liquidation-backend-test:${env.BUILD_NUMBER}"
-                        echo "  docker push emmanuecalad/liquidation-backend-test:${env.BUILD_NUMBER}"
-                        echo ""
-                        echo "  docker tag ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} emmanuecalad/liquidation-frontend-test:${env.BUILD_NUMBER}"
-                        echo "  docker push emmanuecalad/liquidation-frontend-test:${env.BUILD_NUMBER}"
+                        
+                        # Login a DockerHub (usando credenciales configuradas)
+                        docker login -u emmanuecalad -p tu_password_dockerhub
+                        
+                        # Push de las imágenes
+                        docker push ${BACKEND_IMAGE}:${env.BUILD_NUMBER}
+                        docker push ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}
+                        
+                        # También push latest
+                        docker tag ${BACKEND_IMAGE}:${env.BUILD_NUMBER} ${BACKEND_IMAGE}:latest
+                        docker tag ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} ${FRONTEND_IMAGE}:latest
+                        docker push ${BACKEND_IMAGE}:latest
+                        docker push ${FRONTEND_IMAGE}:latest
+                        
+                        echo "✅ Imágenes subidas exitosamente a DockerHub"
                     """
                 }
             }
@@ -186,6 +163,21 @@ pipeline {
         }
         success {
             echo "✅ ¡Pipeline EXITOSO! Todas las etapas completadas"
+            sh '''
+                echo "=== 🎊 PIPELINE COMPLETADO 🎊 ==="
+                echo "✅ Checkout exitoso"
+                echo "✅ Backend build y tests"
+                echo "✅ Frontend build" 
+                echo "✅ Imágenes Docker construidas"
+                echo "✅ Imágenes subidas a DockerHub"
+                echo ""
+                echo "=== 📦 IMÁGENES PUBLICADAS ==="
+                echo "Backend:  emmanuecalad/liquidation-backend-test:${BUILD_NUMBER}"
+                echo "Backend:  emmanuecalad/liquidation-backend-test:latest"
+                echo "Frontend: emmanuecalad/liquidation-frontend-test:${BUILD_NUMBER}"
+                echo "Frontend: emmanuecalad/liquidation-frontend-test:latest"
+                echo "==============================="
+            '''
         }
         failure {
             echo "❌ Pipeline FALLIDO - Revisar logs para detalles"
