@@ -82,9 +82,11 @@ class LiquidacionCalculator:
 
         return {
             "id_liquidacion": liquidacion.id_liquidacion,
-            "fecha_liquidacion": liquidacion.fecha_liquidacion,
+            "id_contrato": id_contrato,
+            "id_motivo_terminacion": id_motivo_terminacion,
             "total_liquidacion": float(total),
-            "detalles": [{"concepto": c, "valor": float(v)} for c, v in detalles]
+            # ¡DEBE AÑADIRSE ESTA LÍNEA!
+            "indemnizacion": float(indemnizacion)
         }
 
     def calcular_indemnizacion(self, dias_trabajados: int, salario: float) -> float:
@@ -99,3 +101,4 @@ class LiquidacionCalculator:
         else:
             # 1 mes por el primer año + 20 días por cada año adicional
             return salario + ((años - 1) * (salario / 30) * 20)
+

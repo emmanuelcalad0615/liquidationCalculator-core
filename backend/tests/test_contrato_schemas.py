@@ -1,49 +1,10 @@
-from pydantic import BaseModel
-from datetime import date
-from typing import Optional
-
-class ContratoBase(BaseModel):
-    id_empleado: int
-    id_tipo_contrato: int
-    fecha_inicio: date
-    fecha_fin: Optional[date] = None
-    salario_mensual: float
-    auxilio_transporte: Optional[int] = None
-
-
-class ContratoCreate(ContratoBase):
-    pass
-
-
-class ContratoUpdate(BaseModel):
-    id_empleado: Optional[int] = None
-    id_tipo_contrato: Optional[int] = None
-    fecha_inicio: Optional[date] = None
-    fecha_fin: Optional[date] = None
-    salario_mensual: Optional[float] = None
-    auxilio_transporte: Optional[int] = None
-
-
-class ContratoOut(BaseModel):
-    id_contrato: int
-    id_empleado: int
-    id_tipo_contrato: int
-    fecha_inicio: date
-    fecha_fin: Optional[date]
-    salario_mensual: float
-    auxilio_transporte: Optional[int]
-
-    class Config:
-        orm_mode = True
-
-
-
 import pytest
 from datetime import date
 from typing import Optional
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, ConfigDict
 
-# Definición de los esquemas (normalmente se importan)
+# --- Definición de los Esquemas ---
+
 class ContratoBase(BaseModel):
     id_empleado: int
     id_tipo_contrato: int
@@ -75,41 +36,43 @@ class ContratoOut(BaseModel):
     salario_mensual: float
     auxilio_transporte: Optional[int]
 
-    class Config:
-        orm_mode = True
+    # Actualizado a Pydantic V2:
+    model_config = ConfigDict(from_attributes=True)
 
 # --- Fixtures de Datos de Prueba ---
 
 @pytest.fixture
 def base_data_fijo():
-    """Datos mínimos requeridos para un contrato fijo."""
+    """
+    Datos de contrato fijo. Incluye explícitamente auxilio_transporte=None
+    para cumplir con la validación de ContratoOut.
+    """
     return {
         "id_empleado": 1,
         "id_tipo_contrato": 1,
         "fecha_inicio": date(2024, 1, 15),
         "fecha_fin": date(2024, 12, 31),
         "salario_mensual": 2500000.00,
-    }
+        "auxilio_transporte": None, # CORREGIDO
+    } # CORREGIDO: Se asegura que esta llave está presente
 
 @pytest.fixture
 def base_data_indefinido():
-    """Datos para un contrato indefinido (fecha_fin y auxilio opcionales omitidos/None)."""
+    """Datos para un contrato indefinido."""
     return {
         "id_empleado": 2,
         "id_tipo_contrato": 2,
-        "fecha_inicio": "2023-06-01", # Prueba que acepta string de fecha
+        "fecha_inicio": "2023-06-01",
         "salario_mensual": 1200000.00,
         "auxilio_transporte": 162000,
     }
 
 @pytest.fixture
 def out_data(base_data_fijo):
-    """Datos de salida completos."""
+    """Datos de salida completos (inyecta la fixture base_data_fijo)."""
     return {**base_data_fijo, "id_contrato": 10}
 
 # --- Pruebas Unitarias ---
-
-## ContratoBase y ContratoCreate
 
 def test_contrato_base_creacion_fijo_exitosa(base_data_fijo):
     """Verifica que ContratoBase se crea correctamente con todos los campos requeridos y opcionales."""
@@ -117,7 +80,7 @@ def test_contrato_base_creacion_fijo_exitosa(base_data_fijo):
     assert contrato.id_empleado == 1
     assert contrato.fecha_fin == date(2024, 12, 31)
     assert contrato.salario_mensual == 2500000.00
-    assert contrato.auxilio_transporte is None # No se provee auxilio
+    assert contrato.auxilio_transporte is None
 
 def test_contrato_base_creacion_indefinido_exitosa(base_data_indefinido):
     """Verifica que ContratoBase se crea correctamente sin fecha_fin y convierte el string de fecha."""
@@ -136,14 +99,12 @@ def test_contrato_base_validacion_fallida():
     with pytest.raises(ValidationError):
         ContratoBase(**data_invalida)
 
-def test_contrato_create_es_identico_a_base():
-    """Verifica que ContratoCreate hereda correctamente de ContratoBase sin añadir campos."""
-    contrato_base = ContratoBase(**base_data_fijo())
-    contrato_create = ContratoCreate(**base_data_fijo())
+def test_contrato_create_es_identico_a_base(base_data_fijo):
+    """Verifica que ContratoCreate hereda correctamente de ContratoBase."""
+    contrato_base = ContratoBase(**base_data_fijo)
+    contrato_create = ContratoCreate(**base_data_fijo)
     assert contrato_base.model_dump() == contrato_create.model_dump()
     assert ContratoCreate.model_fields.keys() == ContratoBase.model_fields.keys()
-
-## ContratoUpdate
 
 def test_contrato_update_creacion_vacio_exitosa():
     """Verifica que ContratoUpdate se crea exitosamente sin campos (todos son opcionales)."""
@@ -164,20 +125,18 @@ def test_contrato_update_validacion_tipos_fallida():
     with pytest.raises(ValidationError):
         ContratoUpdate(**data_invalida)
 
-## ContratoOut
-
 def test_contrato_out_creacion_exitosa(out_data):
     """Verifica la creación de ContratoOut con el campo id_contrato requerido."""
     contrato_out = ContratoOut(**out_data)
     assert contrato_out.id_contrato == 10
     assert contrato_out.fecha_inicio == date(2024, 1, 15)
 
-def test_contrato_out_validacion_fallida_id_contrato():
+def test_contrato_out_validacion_fallida_id_contrato(base_data_fijo):
     """Verifica que falla si falta id_contrato, ya que no es Optional."""
-    data_invalida = base_data_fijo()
+    data_invalida = base_data_fijo
     with pytest.raises(ValidationError):
         ContratoOut(**data_invalida)
 
 def test_contrato_out_config_orm_mode():
-    """Verifica que orm_mode está habilitado para permitir la lectura desde modelos ORM."""
-    assert ContratoOut.Config.orm_mode is True
+    """Verifica que from_attributes (anteriormente orm_mode) está habilitado."""
+    assert ContratoOut.model_config.get('from_attributes') is True
