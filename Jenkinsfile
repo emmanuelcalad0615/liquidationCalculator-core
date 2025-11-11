@@ -79,7 +79,7 @@ pipeline {
                         if command -v node >/dev/null 2>&1; then
                             echo "Node.js encontrado, instalando dependencias..."
                             npm install
-                            npm run build
+                            npm start
                             echo "✅ Frontend build completado"
                         else
                             echo "⚠️ Node.js no disponible, instalando..."
