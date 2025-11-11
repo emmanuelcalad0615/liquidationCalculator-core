@@ -29,6 +29,7 @@ from sqlalchemy.orm import Session
 from database import engine
 from models.tipo_documento import TipoDocumento
 from models.tipo_contrato import TipoContrato
+from prometheus_fastapi_instrumentator import Instrumentator
 
 def init_catalogos():
     with Session(engine) as session:
@@ -86,6 +87,7 @@ init_catalogos()
 
 app = FastAPI()
 
+
 app.title = "LiquidationCalculator"
 app.add_middleware(
     CORSMiddleware,
@@ -94,6 +96,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/", tags="Home")
 def home():
