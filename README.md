@@ -21,7 +21,6 @@ Aplicación web para calcular liquidaciones laborales, compuesta por un backend 
 Antes de comenzar, asegúrate de tener:
 
 - Docker Desktop instalado y en ejecución
-- Una cuenta gratuita en [https://neon.tech](https://neon.tech) para la base de datos
 - (Opcional) Git, si vas a clonar el repositorio desde GitHub
 
 ---
