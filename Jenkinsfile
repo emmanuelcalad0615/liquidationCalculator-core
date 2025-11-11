@@ -19,7 +19,6 @@ pipeline {
             steps {
                 sh '''
                     echo "🔧 Configurando entorno..."
-                    # Instalar python3-venv que es necesario para crear virtual environments
                     apt-get update
                     apt-get install -y python3-venv
                     echo "✅ Entorno configurado"
@@ -57,10 +56,10 @@ pipeline {
                         # Activar virtual environment
                         . venv/bin/activate
                         
-                        # Configurar variables de entorno para tests
+                        # Configurar variables de entorno para tests - FRONTEND_URL como string simple
                         export SECRET_KEY="clave_secreta_mi_hermanito"
                         export DATABASE_URL="sqlite:///test.db"
-                        export FRONTEND_URL="http://localhost:3000"
+                        export FRONTEND_URL="localhost:3000"  # Sin http:// y sin comas
                         
                         # Ejecutar tests
                         python -m pytest tests/ -v --tb=short
@@ -106,7 +105,7 @@ pipeline {
                             docker build \\
                                 --build-arg SECRET_KEY='clave_secreta_mi_hermanito' \\
                                 --build-arg DATABASE_URL='mysql+pymysql://root:Joaco06151970@mysql_db:3306/liquidation' \\
-                                --build-arg FRONTEND_URL='http://localhost:3000,http://127.0.0.1:3000' \\
+                                --build-arg FRONTEND_URL='localhost:3000' \\
                                 -t ${BACKEND_IMAGE}:${env.BUILD_NUMBER} .
                             
                             echo "✅ Backend image: ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
@@ -125,29 +124,20 @@ pipeline {
             }
         }
         
-        stage('Push to DockerHub') {
+        stage('Test Images') {
             steps {
                 script {
-                    echo "📤 Subiendo imágenes a DockerHub..."
+                    echo "🔍 Verificando imágenes..."
                     sh """
-                        echo "=== SUBIENDO IMÁGENES A DOCKERHUB ==="
-                        echo "Backend: ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
+                        echo "=== IMÁGENES CREADAS ==="
+                        docker images | grep liquidation || echo "No images found"
+                        echo ""
+                        echo "Backend:  ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
                         echo "Frontend: ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}"
-                        
-                        # Login a DockerHub (usando credenciales configuradas)
-                        docker login -u emmanuecalad -p tu_password_dockerhub
-                        
-                        # Push de las imágenes
-                        docker push ${BACKEND_IMAGE}:${env.BUILD_NUMBER}
-                        docker push ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}
-                        
-                        # También push latest
-                        docker tag ${BACKEND_IMAGE}:${env.BUILD_NUMBER} ${BACKEND_IMAGE}:latest
-                        docker tag ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} ${FRONTEND_IMAGE}:latest
-                        docker push ${BACKEND_IMAGE}:latest
-                        docker push ${FRONTEND_IMAGE}:latest
-                        
-                        echo "✅ Imágenes subidas exitosamente a DockerHub"
+                        echo ""
+                        echo "Para push manual a DockerHub:"
+                        echo "docker push ${BACKEND_IMAGE}:${env.BUILD_NUMBER}"
+                        echo "docker push ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}"
                     """
                 }
             }
@@ -156,26 +146,21 @@ pipeline {
     
     post {
         always {
-            echo "🎉 Pipeline ejecutado - Resultado: ${currentBuild.currentResult}"
-            echo "Build Number: ${env.BUILD_NUMBER}"
-            // Limpiar virtual environment
+            echo "🎉 Pipeline terminado - Resultado: ${currentBuild.currentResult}"
             sh 'rm -rf backend/venv || true'
         }
         success {
-            echo "✅ ¡Pipeline EXITOSO! Todas las etapas completadas"
+            echo "✅ ¡Pipeline EXITOSO!"
             sh '''
                 echo "=== 🎊 PIPELINE COMPLETADO 🎊 ==="
                 echo "✅ Checkout exitoso"
                 echo "✅ Backend build y tests"
                 echo "✅ Frontend build" 
                 echo "✅ Imágenes Docker construidas"
-                echo "✅ Imágenes subidas a DockerHub"
                 echo ""
-                echo "=== 📦 IMÁGENES PUBLICADAS ==="
+                echo "=== 📦 IMÁGENES CREADAS ==="
                 echo "Backend:  emmanuecalad/liquidation-backend-test:${BUILD_NUMBER}"
-                echo "Backend:  emmanuecalad/liquidation-backend-test:latest"
                 echo "Frontend: emmanuecalad/liquidation-frontend-test:${BUILD_NUMBER}"
-                echo "Frontend: emmanuecalad/liquidation-frontend-test:latest"
                 echo "==============================="
             '''
         }
