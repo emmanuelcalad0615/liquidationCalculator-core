@@ -85,7 +85,7 @@ pipeline {
                             echo "⚠️ Node.js no disponible, instalando..."
                             apt-get install -y nodejs npm
                             npm install
-                            npm run build
+                            npm start
                             echo "✅ Frontend build completado"
                         fi
                     '''
