@@ -157,6 +157,10 @@ http://localhost:8000/redoc
 
 ## Imágenes Docker públicas:
 
-- Backend → emmanuecalad/liquidation-calculator-backend
+###Docker Compose y Despliegue:
+- Backend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-backend/general
+- Frontend → hub.docker.com/repository/docker/emmanuecalad/liquidation-frontend
 
-- Frontend → emmanuecalad/liquidation-calculator-frontend
+###Imagenes Creadas Con Jenkinsfile
+- Backend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-backend-test/general
+- Frontend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-frontend-test/general
