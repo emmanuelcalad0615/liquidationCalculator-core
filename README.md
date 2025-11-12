@@ -157,10 +157,10 @@ http://localhost:8000/redoc
 
 ## Imágenes Docker públicas:
 
-###Docker Compose y Despliegue:
+### Docker Compose y Despliegue:
 - Backend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-backend/general
-- Frontend → hub.docker.com/repository/docker/emmanuecalad/liquidation-frontend
+- Frontend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-frontend/general
 
-###Imagenes Creadas Con Jenkinsfile
+### Imagenes Creadas Con Jenkinsfile
 - Backend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-backend-test/general
 - Frontend → https://hub.docker.com/repository/docker/emmanuecalad/liquidation-frontend-test/general
