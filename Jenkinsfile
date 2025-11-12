@@ -2,7 +2,6 @@ pipeline {
     agent any
     
     environment {
-        // Nombres de imágenes CON tu usuario de DockerHub
         BACKEND_IMAGE = 'emmanuecalad/liquidation-backend-test'
         FRONTEND_IMAGE = 'emmanuecalad/liquidation-frontend-test'
     }
@@ -77,8 +76,6 @@ pipeline {
                         fi
 
                         npm install
-
-                        # Construcción sin warnings que bloqueen el build
                         CI=false npm run build
 
                         echo "✅ Frontend build completado"
@@ -119,20 +116,22 @@ pipeline {
                 script {
                     echo "📤 Subiendo imágenes a DockerHub..."
                     
-                    sh """
-                        docker login -u emmanuecalad -p tu_password_dockerhub
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
-                        docker push ${BACKEND_IMAGE}:${env.BUILD_NUMBER}
-                        docker push ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}
+                            docker push ${BACKEND_IMAGE}:${env.BUILD_NUMBER}
+                            docker push ${FRONTEND_IMAGE}:${env.BUILD_NUMBER}
 
-                        docker tag ${BACKEND_IMAGE}:${env.BUILD_NUMBER} ${BACKEND_IMAGE}:latest
-                        docker tag ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} ${FRONTEND_IMAGE}:latest
+                            docker tag ${BACKEND_IMAGE}:${env.BUILD_NUMBER} ${BACKEND_IMAGE}:latest
+                            docker tag ${FRONTEND_IMAGE}:${env.BUILD_NUMBER} ${FRONTEND_IMAGE}:latest
 
-                        docker push ${BACKEND_IMAGE}:latest
-                        docker push ${FRONTEND_IMAGE}:latest
+                            docker push ${BACKEND_IMAGE}:latest
+                            docker push ${FRONTEND_IMAGE}:latest
 
-                        echo "✅ Imágenes subidas exitosamente"
-                    """
+                            echo "✅ Imágenes subidas exitosamente"
+                        """
+                    }
                 }
             }
         }
